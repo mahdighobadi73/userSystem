@@ -1,12 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import RegisterPage from "./pages/RegisterPage"
 import './App.css';
-import RegisterForm from './components/RegisterForm';
+
+
 
 function App () {
     return (
-        <main className="app-shell">
-            <h1>User Registration</h1>
-            <RegisterForm />
-        </main>
+        <BrowserRouter>
+            <main className="app-shell">
+                <Routes>
+                    <Route path="/" element={ <RegisterPage /> } />
+                </Routes>
+            </main>
+        </BrowserRouter>
     );
 }
 

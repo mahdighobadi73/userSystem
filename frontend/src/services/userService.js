@@ -1,4 +1,5 @@
 export async function registerUser ( { username, email, password } ) {
+try {
     const response = await fetch( 'http://localhost:5000/api/users/register', {
         method: 'POST',
         headers: {
@@ -14,4 +15,7 @@ export async function registerUser ( { username, email, password } ) {
     }
 
     return data;
+} catch (error) {
+    throw new Error(error.message);
+}
 }

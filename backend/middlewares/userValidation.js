@@ -11,6 +11,6 @@ const userValidation = (req, res, next) => {
         }
     }
     next();
-};
+}
 
 module.exports = userValidation;
