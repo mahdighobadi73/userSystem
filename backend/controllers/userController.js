@@ -5,23 +5,6 @@ const registerUser = async ( req, res, next ) => {
     try {
         const { username, email, password } = req.body;
 
-        if ( !username ) {
-            const error = new Error( 'Username is required.' );
-            error.statusCode = 400;
-            throw error;
-        }
-
-        if ( !email ) {
-            const error = new Error( 'Email is required.' );
-            error.statusCode = 400;
-            throw error;
-        }
-        if ( !password ) {
-            const error = new Error( 'Password is required.' );
-            error.statusCode = 400;
-            throw error;
-        }
-        
         const userExists = await User.findOne( { email } );
         if ( userExists ) {
             const error = new Error( 'This email already exists.' );
