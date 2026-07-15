@@ -21,6 +21,16 @@ const createUser = async ( { username, email, password } ) => {
     } );
 };
 
+const login = async ( { email, password } ) => {
+    const user = await User.findOne( { email } );
+
+    if ( !user ) {
+        const error = new Error( 'The email is incorrect.' );
+        error.statusCode = 400;
+        throw error;
+    }
+}
+
 module.exports = {
     createUser,
 };

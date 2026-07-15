@@ -1,4 +1,4 @@
-export async function registerUser({ username, email, password }) {
+export async function registerUser ( { username, email, password } ) {
     try {
         const response = await fetch(
             "http://localhost:5000/api/users/register",
@@ -7,20 +7,45 @@ export async function registerUser({ username, email, password }) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ username, email, password })
+                body: JSON.stringify( { username, email, password } )
             }
         );
 
         const data = await response.json();
 
-        if (!response.ok) {
+        if ( !response.ok ) {
             throw new Error(
                 data.error || data.message || "Unable to register user"
             );
         }
 
         return data;
-    } catch (error) {
+    } catch ( error ) {
         throw error;
     }
 }
+
+export async function getProfile ( ) {
+    try {
+        const response = await fetch(
+            "http://localhost:5000/api/users/profile/:id",
+            {
+                method: "GET",
+            }
+        );
+
+        const data = await response.json();
+
+        if ( !response.ok ) {
+            throw new Error(
+                data.error || data.message || "Unable to get profile the user"
+            );
+        }
+
+        return data;
+
+    } catch ( error ) {
+        throw error;
+    }
+}
+
