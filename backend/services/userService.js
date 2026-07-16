@@ -1,36 +1,51 @@
-const bcrypt = require( 'bcryptjs' );
-const User = require( '../models/User' );
+const bcrypt = require("bcryptjs");
+const User = require("../models/User");
 
-const createUser = async ( { username, email, password } ) => {
-    const existingUser = await User.findOne( {
-        $or: [ { username }, { email } ],
-    } );
+const createUser = async ({ username, email, password }) => {
+    const existingUser = await User.findOne({
+        $or: [{ username }, { email }]
+    });
 
-    if ( existingUser ) {
-        const error = new Error( 'A user with the provided username or email already exists.' );
+    if (existingUser) {
+        const error = new Error(
+            "A user with the provided username or email already exists."
+        );
         error.statusCode = 409;
         throw error;
     }
 
-    const hashedPassword = await bcrypt.hash( password, 10 );
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    return User.create( {
+    return User.create({
         username,
         email,
-        password: hashedPassword,
-    } );
+        password: hashedPassword
+    });
 };
 
-const login = async ( { email, password } ) => {
-    const user = await User.findOne( { email } );
+const userLogin = async ({ email, password }) => {
+    const user = await User.findOne({ email });
 
-    if ( !user ) {
-        const error = new Error( 'The email is incorrect.' );
-        error.statusCode = 400;
+    if (!user) {
+        const error = new Error("Invalid email or password");
+        error.statusCode = 401;
         throw error;
     }
-}
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+        const error = new Error("Invalid email or password");
+        error.statusCode = 401;
+        throw error;
+    }
+    
+    return {
+     username: user.username,
+     email: user.email,
+    }
+};
 
 module.exports = {
-    createUser,
+    createUser
 };
