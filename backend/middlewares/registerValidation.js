@@ -1,6 +1,6 @@
 const createError = require( "../utils/createError" );
 
-const userValidation = ( req, res, next ) => {
+const registerValidation = ( req, res, next ) => {
     const { username, email, password } = req.body;
 
     const requiredFields = [
@@ -17,4 +17,4 @@ const userValidation = ( req, res, next ) => {
     next();
 }
 
-module.exports = userValidation;
+module.exports = registerValidation;

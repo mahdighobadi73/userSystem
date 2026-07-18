@@ -1,37 +1,30 @@
-const User = require("../models/User");
-const { createUser, userLogin } = require("../services/userService");
+const { registerUser, userLogin } = require( "../services/userService" );
 
-const registerUser = async (req, res, next) => {
+const register = async ( req, res, next ) => {
     try {
         const { username, email, password } = req.body;
 
-        const user = await createUser({ username, email, password });
+        const registerResult = await registerUser( { username, email, password } );
 
-        res.status(201).json({
-            message: "User registered successfully",
-            user: {
-                id: user._id,
-                username: user.username,
-                email: user.email
-            }
-        });
-    } catch (error) {
-        next(error);
+        res.status( 201 ).json( registerResult );
+    } catch ( error ) {
+        next( error );
     }
 };
 
-const login = async (req, res, next) => {
+const login = async ( req, res, next ) => {
     try {
         const { email, password } = req.body;
 
-        const result = await userLogin({ email, password });
+        const loginResult = await userLogin( { email, password } );
 
-        res.status(200).json(result);
-    } catch (error) {
-        next(error);
+        res.status( 200 ).json( loginResult );
+    } catch ( error ) {
+        next( error );
     }
 };
 
 module.exports = {
-    registerUser
+    register,
+    login
 };
